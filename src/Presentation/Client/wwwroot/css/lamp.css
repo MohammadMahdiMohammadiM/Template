@@ -1,0 +1,317 @@
+﻿@import url(fontiran.css);
+
+/* Lamp page: black stage, a swinging bulb that lights up the text */
+
+@property --lx {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 50%;
+}
+
+@property --a {
+    syntax: "<angle>";
+    inherits: true;
+    initial-value: 0deg;
+}
+
+@property --lit {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+
+.lamp-page {
+    --cord: 40vh; /* length of the cord: the bulb hangs near the middle */
+    --D: calc(var(--cord) + 80px); /* distance from the top of the screen to the centre of the bulb */
+    --glow: 34vmin; /* radius of the light */
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    overflow: hidden;
+    margin: 0;
+    background: #000;
+    animation: lamp-move 14s ease-in-out infinite alternate, lamp-sway 6s ease-in-out infinite alternate, lamp-flicker 28s linear infinite;
+}
+
+/* One trip from one edge to the other takes 14 seconds */
+@keyframes lamp-move {
+    from {
+        --lx: 4%;
+    }
+
+    to {
+        --lx: 96%;
+    }
+}
+
+/* A small swing, so the bulb looks like it hangs from a cord */
+@keyframes lamp-sway {
+    from {
+        --a: -3deg;
+    }
+
+    to {
+        --a: 3deg;
+    }
+}
+
+/* 28 seconds = one full trip (left, right, left).
+   The bulb reaches each end at 50% and 100%, and flickers just before. */
+@keyframes lamp-flicker {
+    0%, 43.9% {
+        --lit: 1;
+    }
+
+    44.8% {
+        --lit: 0;
+    }
+
+    45.5% {
+        --lit: 1;
+    }
+
+    46.5% {
+        --lit: 0;
+    }
+
+    47.2% {
+        --lit: 1;
+    }
+
+    48% {
+        --lit: .15;
+    }
+
+    48.6%, 50% {
+        --lit: 1;
+    }
+
+    93.9% {
+        --lit: 1;
+    }
+
+    94.8% {
+        --lit: 0;
+    }
+
+    95.5% {
+        --lit: 1;
+    }
+
+    96.5% {
+        --lit: 0;
+    }
+
+    97.2% {
+        --lit: 1;
+    }
+
+    98% {
+        --lit: .15;
+    }
+
+    98.6%, 100% {
+        --lit: 1;
+    }
+}
+
+/* Position of the bulb centre, from the swing */
+.lamp-text,
+.lamp-ambient {
+    --bulb-x: calc(var(--lx) - var(--D) * sin(var(--a)));
+    --bulb-y: calc(var(--D) * cos(var(--a)));
+}
+
+/* Ambient glow: a soft light on the black around the bulb */
+.lamp-ambient {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle calc(var(--glow) * 2.2) at var(--bulb-x) var(--bulb-y), rgba(255, 244, 190, calc(.22 * var(--lit))), transparent 70%);
+}
+
+/* Text: only visible inside the light circle */
+.lamp-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2vh;
+    padding: 0 5vw;
+    box-sizing: border-box;
+    text-align: center;
+    color: #fff;
+    -webkit-mask-image: radial-gradient(circle var(--glow) at var(--bulb-x) var(--bulb-y), rgba(0, 0, 0, var(--lit)) 0%, rgba(0, 0, 0, calc(var(--lit) * .85)) 55%, transparent 100%);
+    mask-image: radial-gradient(circle var(--glow) at var(--bulb-x) var(--bulb-y), rgba(0, 0, 0, var(--lit)) 0%, rgba(0, 0, 0, calc(var(--lit) * .85)) 55%, transparent 100%);
+}
+
+    .lamp-text h1 {
+        margin: 0;
+        font-size: clamp(3rem, 12vw, 10rem);
+        font-weight: 900;
+        line-height: 1.05;
+        text-shadow: 0 0 30px rgba(255, 240, 180, .25);
+    }
+
+    .lamp-text p {
+        margin: 0;
+        font-size: clamp(1.1rem, 2.6vw, 2rem);
+        color: rgba(255, 255, 255, .85);
+    }
+
+.lamp-link {
+    margin-top: 2vh;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    color: #ffe9a0;
+}
+
+/* The lamp: it starts at the top, and its pivot moves with --lx */
+.lamp {
+    position: absolute;
+    top: 0;
+    left: var(--lx);
+    width: 0;
+    height: 0;
+    transform-origin: 0 0;
+    transform: rotate(var(--a));
+    z-index: 3;
+}
+
+/* The cord from the ceiling to the socket */
+.lamp-cord {
+    position: absolute;
+    left: -1px;
+    top: 0;
+    width: 2px;
+    height: var(--cord);
+    background: linear-gradient(90deg, #1a1a1a, #4a4a4a, #1a1a1a);
+}
+
+/* The metal socket that holds the bulb */
+.lamp-socket {
+    position: absolute;
+    left: -19px;
+    top: var(--cord);
+    width: 38px;
+    height: 44px;
+    border-radius: 6px 6px 3px 3px;
+    background: repeating-linear-gradient(to bottom, transparent 0 6px, rgba(0, 0, 0, .45) 6px 8px), linear-gradient(90deg, #4a4a4a 0%, #d9d9d9 35%, #7a7a7a 60%, #2a2a2a 100%);
+    z-index: 2;
+}
+
+/* The glass globe: pear shape, bright when the lamp is on */
+.lamp-globe {
+    position: absolute;
+    left: -38px;
+    top: calc(var(--cord) + 36px);
+    width: 76px;
+    height: 88px;
+    border-radius: 50% 50% 46% 46% / 40% 40% 60% 60%;
+    background: radial-gradient(circle at 50% 42%, #ffffff 0%, #fff8d6 30%, #ffe27a 65%, #e8b33c 100%);
+    box-shadow: 0 0 60px 28px rgba(255, 240, 180, .45);
+    opacity: calc(.12 + .88 * var(--lit));
+    z-index: 1;
+}
+
+    /* Small highlight on the glass */
+    .lamp-globe::after {
+        content: "";
+        position: absolute;
+        left: 18%;
+        top: 16%;
+        width: 22%;
+        height: 18%;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, .7);
+        filter: blur(1px);
+    }
+
+/* The glowing filament inside the globe */
+.lamp-filament {
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    width: 26px;
+    height: 24px;
+    transform: translate(-50%, -50%);
+    border-radius: 50% 50% 40% 40%;
+    background: radial-gradient(circle, #ffffff 0%, #ffd27a 45%, rgba(255, 160, 40, 0) 72%);
+}
+
+/* Persian (right-to-left): the lamp starts on the right and moves left first */
+[dir="rtl"] .lamp-page {
+    animation: lamp-move 14s ease-in-out infinite alternate-reverse, lamp-sway 6s ease-in-out infinite alternate, lamp-flicker 28s linear infinite;
+}
+
+/* Users who turn off animations see the bulb in the middle, always on */
+@media (prefers-reduced-motion: reduce) {
+    .lamp-page,
+    [dir="rtl"] .lamp-page {
+        animation: none;
+        --lx: 50%;
+        --a: 0deg;
+        --lit: 1;
+    }
+}
+
+body {
+    font-family: IRANSansX !important;
+}
+
+h1, h2, h3, h4, h5, h6, input, textarea {
+    font-family: IRANSansX !important;
+}
+
+h1 {
+    font-weight: bold !important;
+}
+
+.ltr {
+    direction: ltr;
+}
+
+.form-check-input[disabled] ~ .form-check-label, .form-check-input:disabled ~ .form-check-label {
+    opacity: 1 !important;
+}
+
+div.tox {
+    font-family: IRANSansX !important;
+}
+
+.tooltip {
+    font-family: IRANSansX !important;
+}
+
+/* Lamp pages only: the same top menu with a dark silver-to-black style and yellow-orange accents.
+   Only the colours change. The shine, glass blur, glow and lift stay the same. */
+
+.lamp-page .pf-nav {
+    --neon: #ffd23f;
+    --neon-2: #ff8c1a;
+    background: linear-gradient(135deg, rgba(190, 196, 206, .22) 0%, rgba(190, 196, 206, 0) 32%), linear-gradient(135deg, #1b1e25 0%, #07080c 55%, #030304 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, .14);
+}
+
+    /* Hairline along the bottom edge */
+    .lamp-page .pf-nav::after {
+        box-shadow: 0 0 8px rgba(255, 210, 63, .8), 0 0 18px rgba(255, 140, 26, .5);
+    }
+
+    /* White text for the links and the brand */
+    .lamp-page .pf-nav a,
+    .lamp-page .pf-nav .pf-brand {
+        color: #fff;
+    }
+
+        /* Hover glow in yellow and orange */
+        .lamp-page .pf-nav a:hover,
+        .lamp-page .pf-nav .pf-lang:hover {
+            box-shadow: 0 10px 22px -8px rgba(255, 170, 40, .6), inset 0 0 0 1px rgba(255, 255, 255, .22), 0 0 18px rgba(255, 120, 20, .35);
+        }
+
+    /* Active link glow in yellow */
+    .lamp-page .pf-nav nav a.active {
+        text-shadow: 0 0 12px rgba(255, 200, 60, .7);
+    }

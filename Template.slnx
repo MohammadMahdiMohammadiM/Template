@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/docs/">
+    <File Path="ToDo.txt" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Core/">
+    <Project Path="src/Core/Constants/Constants.csproj" Id="e351bb4f-2408-4be3-a8d2-06f590fdd3c8" />
+    <Project Path="src/Core/Resources/Resources.csproj" Id="94893319-15c8-4a01-b51a-d9fcfd7f17ed" />
+    <Project Path="src/Core/ViewModels/ViewModels.csproj" Id="51f06210-b4e7-4591-9842-77a9a5c2f7ca" />
+  </Folder>
+  <Folder Name="/src/Presentation/">
+    <Project Path="src/Presentation/Client/Client.csproj" />
+  </Folder>
+</Solution>

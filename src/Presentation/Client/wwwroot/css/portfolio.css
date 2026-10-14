@@ -1,0 +1,1079 @@
+html {
+    scroll-behavior: auto !important;
+}
+
+:root {
+    --bg: #eef1f6;
+    --card: #ffffff;
+    --ink: #101828;
+    --muted: #526071;
+    --accent: #2f4bff;
+    --line: rgba(16, 24, 40, .12);
+    --nav-h: 64px;
+    --neon: #19f0ff;
+    --neon-2: #b36bff;
+    --glass: linear-gradient(135deg, rgba(255, 255, 255, .26) 0%, rgba(255, 255, 255, .06) 38%, rgba(120, 140, 255, .22) 100%);
+    --gloss: linear-gradient(100deg, transparent 38%, rgba(255, 255, 255, .16) 48%, transparent 58%);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #0e1420;
+        --card: #172033;
+        --ink: #eef2fb;
+        --muted: #9aa8bf;
+        --accent: #7f95ff;
+        --line: rgba(255, 255, 255, .14);
+    }
+}
+
+body {
+    margin: 0;
+    color: var(--ink);
+    line-height: 1.65;
+    background-color: var(--bg);
+    background-image: radial-gradient(640px 420px at 12% 8%, rgba(47, 75, 255, .22), transparent 70%), radial-gradient(560px 420px at 92% 38%, rgba(179, 107, 255, .2), transparent 70%), radial-gradient(600px 420px at 25% 92%, rgba(25, 240, 255, .16), transparent 70%);
+    background-attachment: fixed;
+    font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+}
+
+h1, h2 {
+    line-height: 1.1;
+    letter-spacing: -.03em;
+    margin: 0 0 .6em;
+}
+
+h1 {
+    font-size: clamp(2.4rem, 7vw, 4.5rem);
+}
+
+h2 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+}
+
+/* Persian font */
+@font-face {
+    font-family: "IRANSansX";
+    src: url("../fonts/woff2/IRANSansX-Light.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "IRANSansX";
+    src: url("../fonts/woff2/IRANSansX-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "IRANSansX";
+    src: url("../fonts/woff2/IRANSansX-Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "IRANSansX";
+    src: url("../fonts/woff2/IRANSansX-DemiBold.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "IRANSansX";
+    src: url("../fonts/woff2/IRANSansX-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "IRANSansX";
+    src: url("../fonts/woff2/IRANSansX-Black.woff2") format("woff2");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Persian: font, no negative letter-spacing (it breaks joined letters), more line height */
+[lang="fa"] {
+    font-family: "IRANSansX", "Segoe UI", Tahoma, sans-serif;
+    line-height: 1.85;
+}
+
+    [lang="fa"] * {
+        letter-spacing: 0;
+    }
+
+    [lang="fa"] h1, [lang="fa"] h2 {
+        line-height: 1.35;
+    }
+
+/* Direction for the page sections (set by the wrapper in App.razor) */
+[dir="rtl"] body,
+[dir="rtl"] main,
+[dir="rtl"] .pf-section,
+[dir="rtl"] .pf-footer {
+    direction: rtl;
+}
+
+/* Top menu: glass bar, gloss line, neon hairline */
+.pf-nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: var(--nav-h);
+    z-index: 10;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(16px, 4vw, 48px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, .26) 0%, rgba(255, 255, 255, .06) 38%, rgba(120, 140, 255, .22) 100%), rgba(14, 20, 50, .72);
+    -webkit-backdrop-filter: blur(18px) saturate(1.7);
+    backdrop-filter: blur(18px) saturate(1.7);
+    border-bottom: 1px solid rgba(255, 255, 255, .16);
+    box-shadow: 0 12px 32px -14px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .4);
+}
+
+    /* Glossy shine line that drifts across the glass */
+    .pf-nav::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background: linear-gradient(100deg, transparent 42%, rgba(255, 255, 255, .3) 50%, transparent 58%) no-repeat;
+        background-size: 250% 100%;
+        background-position: 130% 0;
+        animation: pf-gloss 7s ease-in-out infinite;
+    }
+
+    /* Neon hairline along the bottom edge */
+    .pf-nav::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        height: 1px;
+        pointer-events: none;
+        background: linear-gradient(90deg, transparent, var(--neon) 30%, var(--neon-2) 70%, transparent);
+        box-shadow: 0 0 8px var(--neon), 0 0 18px rgba(25, 240, 255, .5);
+        opacity: .85;
+    }
+
+    .pf-nav nav {
+        display: flex;
+        align-items: center;
+        gap: clamp(4px, 1.2vw, 12px);
+    }
+
+    /* Menu links and the language button: glass pill with a sheen on hover */
+    .pf-nav a,
+    .pf-nav .pf-lang {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        padding: 9px 18px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 500;
+        color: rgba(255, 255, 255, .74);
+        background-color: rgba(255, 255, 255, 0);
+        background-image: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, .5) 50%, transparent 65%);
+        background-repeat: no-repeat;
+        background-size: 250% 100%;
+        background-position: 130% 0;
+        transition: transform .25s ease, box-shadow .25s ease, color .25s, background-color .25s, background-position .8s ease;
+    }
+
+        /* Hover: shiny + neon + lift */
+        .pf-nav a:hover,
+        .pf-nav .pf-lang:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            background-color: rgba(255, 255, 255, .1);
+            background-position: -30% 0;
+            box-shadow: 0 10px 22px -8px rgba(25, 240, 255, .6), inset 0 0 0 1px rgba(255, 255, 255, .22), 0 0 18px rgba(179, 107, 255, .3);
+        }
+
+        .pf-nav a:focus-visible,
+        .pf-nav .pf-lang:focus-visible {
+            outline: 2px solid var(--neon);
+            outline-offset: 3px;
+            color: #fff;
+        }
+
+    /* Neon glow dot in front of the active link */
+    .pf-nav nav a::before {
+        content: "";
+        width: 0;
+        height: 6px;
+        margin-inline-end: 0;
+        border-radius: 50%;
+        opacity: 0;
+        background: var(--neon);
+        box-shadow: 0 0 6px var(--neon), 0 0 14px var(--neon);
+        transition: width .3s ease, margin-inline-end .3s ease, opacity .3s ease;
+    }
+
+    .pf-nav nav a.active::before {
+        width: 6px;
+        margin-inline-end: 8px;
+        opacity: 1;
+    }
+
+    /* Neon underline: draws in on hover and stays on the active link */
+    .pf-nav nav a::after {
+        content: "";
+        position: absolute;
+        inset-inline: 18px;
+        bottom: 4px;
+        height: 2px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--neon), var(--neon-2));
+        box-shadow: 0 0 6px var(--neon), 0 0 14px var(--neon-2);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform .35s ease;
+    }
+
+    .pf-nav nav a:hover::after,
+    .pf-nav nav a.active::after {
+        transform: scaleX(1);
+    }
+
+    .pf-nav nav a.active {
+        color: #fff;
+        text-shadow: 0 0 12px rgba(25, 240, 255, .7);
+    }
+
+    /* Change culture button: flag and text with space between them */
+    .pf-nav .pf-lang {
+        gap: 10px;
+        margin-inline-start: 8px;
+        padding: 8px 16px;
+        line-height: 1;
+        border: 1px solid rgba(255, 255, 255, .3);
+        font: inherit;
+        font-weight: 500;
+        white-space: nowrap;
+        cursor: pointer;
+        box-shadow: 0 8px 18px -10px rgba(0, 0, 0, .6), inset 0 1px 0 rgba(255, 255, 255, .4);
+    }
+
+        .pf-nav .pf-lang:hover {
+            border-color: rgba(25, 240, 255, .6);
+        }
+
+    .pf-nav .pf-flag {
+        display: inline-block;
+        width: 24px;
+        height: 18px;
+        margin: 0;
+        font-size: 1.15em;
+        line-height: 1;
+    }
+
+    /* Brand: white text with a pulsing neon dot */
+    .pf-nav .pf-brand {
+        color: #fff;
+        font-weight: 700;
+        letter-spacing: -.02em;
+        gap: 10px;
+    }
+
+        .pf-nav .pf-brand::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--neon);
+            box-shadow: 0 0 6px var(--neon), 0 0 12px var(--neon);
+            animation: pf-pulse 2.4s ease-in-out infinite;
+        }
+
+@keyframes pf-gloss {
+    0%, 55% {
+        background-position: 130% 0;
+    }
+
+    100% {
+        background-position: -30% 0;
+    }
+}
+
+@keyframes pf-pulse {
+    0%, 100% {
+        box-shadow: 0 0 6px var(--neon), 0 0 12px var(--neon);
+    }
+
+    50% {
+        box-shadow: 0 0 10px var(--neon), 0 0 26px var(--neon);
+    }
+}
+
+@media (max-width: 560px) {
+    .pf-nav nav a {
+        padding: 8px 10px;
+        font-size: .88rem;
+    }
+
+        .pf-nav nav a::after {
+            inset-inline: 10px;
+        }
+}
+
+@media (max-width: 480px) {
+    .pf-nav nav a {
+        padding: 8px 8px;
+        font-size: .85rem;
+    }
+
+        .pf-nav nav a::after {
+            inset-inline: 8px;
+        }
+
+        .pf-nav nav a.active::before {
+            margin-inline-end: 6px;
+        }
+}
+
+/* Top menu on small screens: English and Persian have separate breakpoints */
+
+/* English: the titles are longer, so this switches at 920px */
+@media (max-width: 920px) {
+    [lang="en"] .pf-nav {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        align-items: center;
+        column-gap: 8px;
+    }
+
+        [lang="en"] .pf-nav nav {
+            display: contents;
+        }
+
+        [lang="en"] .pf-nav .pf-brand {
+            display: inline-flex;
+            visibility: hidden;
+            justify-self: start;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        [lang="en"] .pf-nav nav a,
+        [lang="en"] .pf-nav .pf-lang {
+            white-space: nowrap;
+        }
+
+            [lang="en"] .pf-nav nav a:not(.active) {
+                display: none;
+            }
+
+            [lang="en"] .pf-nav nav a.active {
+                grid-column: 2;
+                animation: pf-nav-show .35s ease backwards;
+            }
+
+        [lang="en"] .pf-nav .pf-lang {
+            grid-column: 3;
+            justify-self: end;
+            margin-inline-start: 0;
+        }
+}
+
+/* Persian: the titles are shorter, so this switches at 820px */
+@media (max-width: 820px) {
+    [lang="fa"] .pf-nav {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        align-items: center;
+        column-gap: 8px;
+    }
+
+        [lang="fa"] .pf-nav nav {
+            display: contents;
+        }
+
+        [lang="fa"] .pf-nav .pf-brand {
+            display: inline-flex;
+            visibility: hidden;
+            justify-self: start;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        [lang="fa"] .pf-nav nav a,
+        [lang="fa"] .pf-nav .pf-lang {
+            white-space: nowrap;
+        }
+
+            [lang="fa"] .pf-nav nav a:not(.active) {
+                display: none;
+            }
+
+            [lang="fa"] .pf-nav nav a.active {
+                grid-column: 2;
+                animation: pf-nav-show .35s ease backwards;
+            }
+
+        [lang="fa"] .pf-nav .pf-lang {
+            grid-column: 3;
+            justify-self: end;
+            margin-inline-start: 0;
+        }
+}
+
+@keyframes pf-nav-show {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Sections */
+.pf-section {
+    min-height: 100svh;
+    box-sizing: border-box;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: calc(var(--nav-h) + 48px) clamp(20px, 6vw, 96px) 64px;
+    text-align: justify;
+    text-justify: inter-character;
+}
+
+.pf-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.pf-role {
+    font-size: 1.25rem;
+    color: var(--muted);
+    margin: 0;
+}
+
+.pf-hint {
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+/* Flip card */
+.pf-flip {
+    all: unset;
+    box-sizing: border-box;
+    display: block;
+    width: min(260px, 70vw);
+    aspect-ratio: 3 / 4;
+    perspective: 1100px;
+    cursor: pointer;
+    margin-bottom: 28px;
+    border-radius: 24px;
+    transition: transform .25s ease;
+}
+
+    .pf-flip:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 6px;
+    }
+
+.pf-flip-inner {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform: rotateY(calc((var(--angle, 0deg) + var(--hint, 0deg)) * -1));
+    transition: transform .9s cubic-bezier(.45, .05, .2, 1);
+}
+
+.pf-flip:hover .pf-flip-inner {
+    --hint: 14deg;
+}
+
+.pf-flip:hover {
+    transform: translateY(-4px);
+}
+
+    .pf-flip:hover .pf-face {
+        box-shadow: 0 0 0 1px rgba(25, 240, 255, .6), 0 0 26px rgba(25, 240, 255, .45), 0 22px 44px -16px rgba(179, 107, 255, .5), inset 0 1px 0 rgba(255, 255, 255, .4);
+    }
+
+.pf-face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding: 22px;
+    border-radius: 24px;
+    overflow: hidden;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    box-shadow: 0 18px 40px -18px rgba(16, 24, 40, .45);
+    transition: box-shadow .3s ease;
+}
+
+.pf-front {
+    padding: 0;
+    background: var(--card);
+}
+
+    .pf-front::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        background: var(--gloss);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .35), inset 0 0 22px rgba(25, 240, 255, .25);
+    }
+
+    .pf-front img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+.pf-back {
+    transform: rotateY(180deg);
+    background: var(--gloss), var(--glass);
+    background-color: #141b45;
+    color: rgba(255, 255, 255, .85);
+    text-align: start;
+    font-size: .95rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), inset 0 0 0 1px rgba(255, 255, 255, .16), 0 18px 40px -18px rgba(16, 24, 40, .45);
+}
+
+.pf-back-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 12px rgba(25, 240, 255, .6);
+}
+
+    .pf-back-title::before {
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        margin-inline-end: 8px;
+        border-radius: 50%;
+        background: var(--neon);
+        box-shadow: 0 0 6px var(--neon), 0 0 14px var(--neon);
+    }
+
+    .pf-back-title::after {
+        content: "";
+        display: block;
+        width: 44px;
+        height: 2px;
+        margin-top: 8px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--neon), var(--neon-2));
+        box-shadow: 0 0 6px var(--neon), 0 0 14px var(--neon-2);
+    }
+
+/* Show / hide while scrolling (only on elements that have data-reveal) */
+[data-reveal] {
+    opacity: 0;
+    translate: 0 28px;
+    transition: opacity .7s ease var(--d, 0ms), translate .7s cubic-bezier(.2, .7, .2, 1) var(--d, 0ms);
+}
+
+    [data-reveal].is-visible {
+        opacity: 1;
+        translate: none;
+    }
+
+/* Section headings: neon dot and neon underline */
+.pf-section:not(.pf-hero) h2 {
+    position: relative;
+    padding-bottom: .4em;
+    margin-bottom: .8em;
+}
+
+    .pf-section:not(.pf-hero) h2::before {
+        content: "";
+        display: inline-block;
+        width: .3em;
+        height: .3em;
+        margin-inline-end: .4em;
+        vertical-align: middle;
+        border-radius: 50%;
+        background: var(--neon);
+        box-shadow: 0 0 8px var(--neon), 0 0 18px var(--neon);
+    }
+
+    .pf-section:not(.pf-hero) h2::after {
+        content: "";
+        position: absolute;
+        inset-inline-start: 0;
+        bottom: 0;
+        width: 72px;
+        height: 3px;
+        border-radius: 3px;
+        background: linear-gradient(90deg, var(--neon), var(--neon-2));
+        box-shadow: 0 0 8px var(--neon), 0 0 18px var(--neon-2);
+    }
+
+/* Shiny gradient glass: intro text, timeline items, skill chips, contact links */
+.pf-lead,
+.pf-timeline li,
+.pf-skills li,
+.pf-contact a {
+    position: relative;
+    color: rgba(255, 255, 255, .8);
+    background: var(--gloss), var(--glass);
+    background-color: rgba(14, 20, 50, .8);
+    border: 1px solid rgba(255, 255, 255, .16);
+    box-shadow: 0 14px 30px -16px rgba(10, 15, 40, .6), inset 0 1px 0 rgba(255, 255, 255, .4);
+    -webkit-backdrop-filter: blur(14px) saturate(1.6);
+    backdrop-filter: blur(14px) saturate(1.6);
+    transition: opacity .7s ease var(--d, 0ms), translate .7s cubic-bezier(.2, .7, .2, 1) var(--d, 0ms), transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+    /* Hover: shiny + neon + lift */
+    .pf-lead:hover,
+    .pf-timeline li:hover,
+    .pf-skills li:hover,
+    .pf-contact a:hover {
+        transform: translateY(-4px);
+        color: #fff;
+        border-color: rgba(25, 240, 255, .55);
+        box-shadow: 0 16px 30px -12px rgba(25, 240, 255, .5), 0 0 20px rgba(179, 107, 255, .3), inset 0 1px 0 rgba(255, 255, 255, .65), inset 0 0 28px rgba(255, 255, 255, .14);
+    }
+
+    /* Neon underline: draws in on hover */
+    .pf-lead::after,
+    .pf-timeline li::after,
+    .pf-skills li::after,
+    .pf-contact a::after {
+        content: "";
+        position: absolute;
+        inset-inline: 18px;
+        bottom: 6px;
+        height: 2px;
+        border-radius: 2px;
+        pointer-events: none;
+        background: linear-gradient(90deg, var(--neon), var(--neon-2));
+        box-shadow: 0 0 6px var(--neon), 0 0 14px var(--neon-2);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform .35s ease;
+    }
+
+    .pf-skills li::after {
+        inset-inline: 14px;
+        bottom: 3px;
+    }
+
+    .pf-lead:hover::after,
+    .pf-timeline li:hover::after,
+    .pf-skills li:hover::after,
+    .pf-contact a:hover::after {
+        transform: scaleX(1);
+    }
+
+    /* Neon glow dot */
+    .pf-skills li::before,
+    .pf-contact a::before {
+        content: "";
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        margin-inline-end: 10px;
+        vertical-align: middle;
+        border-radius: 50%;
+        background: var(--neon);
+        box-shadow: 0 0 6px var(--neon), 0 0 14px var(--neon);
+    }
+
+.pf-lead {
+    margin: 0;
+    padding: 24px 28px 30px;
+    border-radius: 20px;
+    color: rgba(255, 255, 255, .86);
+    font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+    max-width: 60ch;
+}
+
+/* Career timeline */
+.pf-timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-inline-start: 28px;
+    border-inline-start: 2px solid;
+    border-image: linear-gradient(to bottom, var(--neon), var(--neon-2)) 1;
+}
+
+    .pf-timeline li {
+        margin-bottom: 16px;
+        padding: 16px 20px 24px;
+        border-radius: 16px;
+    }
+
+        .pf-timeline li:last-child {
+            margin-bottom: 0;
+        }
+
+        .pf-timeline li::before {
+            content: "";
+            position: absolute;
+            inset-inline-start: -37px;
+            top: 24px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--neon);
+            box-shadow: 0 0 0 5px var(--bg), 0 0 10px var(--neon), 0 0 22px var(--neon);
+        }
+
+    .pf-timeline strong {
+        color: #fff;
+        font-size: 1.1rem;
+    }
+
+.pf-year {
+    display: block;
+    color: var(--neon);
+    font-weight: 600;
+    font-size: .9rem;
+    text-shadow: 0 0 10px rgba(25, 240, 255, .6);
+}
+
+.pf-timeline p {
+    margin: .3em 0 0;
+    color: rgba(255, 255, 255, .72);
+    max-width: 60ch;
+}
+
+/* Skills and contact */
+.pf-skills {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+}
+
+    .pf-skills li {
+        padding: 9px 20px;
+        border-radius: 999px;
+        font-weight: 500;
+        color: #fff;
+    }
+
+.pf-contact {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+}
+
+    .pf-contact a {
+        padding: 18px 22px 24px;
+        border-radius: 16px;
+        text-decoration: none;
+        font-weight: 500;
+        color: #fff;
+    }
+
+/* Persian: every middle section is right-to-left, whatever the layout inside it */
+[dir="rtl"] .pf-section,
+[dir="rtl"] .pf-section > *,
+[dir="rtl"] .pf-lead,
+[dir="rtl"] .pf-timeline,
+[dir="rtl"] .pf-timeline li,
+[dir="rtl"] .pf-skills,
+[dir="rtl"] .pf-skills li,
+[dir="rtl"] .pf-contact,
+[dir="rtl"] .pf-contact a {
+    direction: rtl;
+}
+
+/* Skill chips and contact links start from the right */
+[dir="rtl"] .pf-skills,
+[dir="rtl"] .pf-contact {
+    justify-content: flex-start;
+}
+
+/* Phone number and email stay left-to-right inside Persian text */
+[dir="rtl"] bdi[dir="ltr"] {
+    direction: ltr;
+}
+
+/* Footer: --reveal (0 to 1) is set by portfolio.js while scrolling */
+.pf-footer {
+    position: relative;
+    min-height: 205px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 40px 25px;
+    text-align: center;
+    background: var(--gloss), var(--glass);
+    background-color: #0b1026;
+    color: rgba(255, 255, 255, .8);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35);
+    opacity: var(--reveal, 0);
+    filter: blur(calc((1 - var(--reveal, 0)) * 16px));
+    transition: opacity .3s, filter .3s;
+}
+
+    .pf-footer::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 1px;
+        pointer-events: none;
+        background: linear-gradient(90deg, transparent, var(--neon) 30%, var(--neon-2) 70%, transparent);
+        box-shadow: 0 0 8px var(--neon), 0 0 18px rgba(25, 240, 255, .5);
+    }
+
+    .pf-footer strong {
+        color: #fff;
+        font-size: 1.15rem;
+    }
+
+        .pf-footer strong::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            margin-inline-end: 10px;
+            vertical-align: middle;
+            border-radius: 50%;
+            background: var(--neon);
+            box-shadow: 0 0 6px var(--neon), 0 0 14px var(--neon);
+        }
+
+/* Footer links: glass pills with a neon dot, neon underline and hover lift */
+.pf-footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin: 10px 0;
+}
+
+    .pf-footer-links a {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 20px 14px;
+        border-radius: 999px;
+        color: #fff;
+        font-weight: 500;
+        text-decoration: none;
+        background: var(--gloss), var(--glass);
+        background-color: rgba(14, 20, 50, .8);
+        border: 1px solid rgba(255, 255, 255, .18);
+        box-shadow: 0 10px 22px -12px rgba(0, 0, 0, .7), inset 0 1px 0 rgba(255, 255, 255, .4);
+        -webkit-backdrop-filter: blur(12px) saturate(1.6);
+        backdrop-filter: blur(12px) saturate(1.6);
+        transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+
+        /* Neon dot before the text */
+        .pf-footer-links a::before {
+            content: "";
+            flex: none;
+            width: 7px;
+            height: 7px;
+            margin-inline-end: 10px;
+            border-radius: 50%;
+            background: var(--neon);
+            box-shadow: 0 0 6px var(--neon), 0 0 14px var(--neon);
+        }
+
+        /* Neon underline that draws in on hover */
+        .pf-footer-links a::after {
+            content: "";
+            position: absolute;
+            inset-inline: 18px;
+            bottom: 5px;
+            height: 2px;
+            border-radius: 2px;
+            background: linear-gradient(90deg, var(--neon), var(--neon-2));
+            box-shadow: 0 0 6px var(--neon), 0 0 14px var(--neon-2);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .35s ease;
+            pointer-events: none;
+        }
+
+[dir="rtl"] .pf-footer-links a::after {
+    transform-origin: right;
+}
+
+/* Hover and keyboard focus: shiny + neon + lift */
+.pf-footer-links a:hover,
+.pf-footer-links a:focus-visible {
+    transform: translateY(-4px);
+    border-color: rgba(25, 240, 255, .6);
+    box-shadow: 0 16px 30px -12px rgba(25, 240, 255, .5), 0 0 20px rgba(179, 107, 255, .35), inset 0 1px 0 rgba(255, 255, 255, .65), inset 0 0 28px rgba(255, 255, 255, .14);
+}
+
+    .pf-footer-links a:hover::after,
+    .pf-footer-links a:focus-visible::after {
+        transform: scaleX(1);
+    }
+
+.pf-footer-links a:focus-visible {
+    outline: 2px solid var(--neon);
+    outline-offset: 4px;
+}
+
+/* Users who turn off animations see everything at once, without motion */
+@media (prefers-reduced-motion: reduce) {
+    .pf-nav::before,
+    .pf-nav .pf-brand::before {
+        animation: none;
+    }
+
+    .pf-nav a,
+    .pf-nav .pf-lang,
+    .pf-footer-links a,
+    .pf-footer-links a::after {
+        transition-duration: .01s;
+    }
+
+    [data-reveal] {
+        opacity: 1;
+        translate: none;
+        transition: none;
+    }
+
+    .pf-flip,
+    .pf-face,
+    .pf-flip-inner,
+    .pf-footer,
+    .pf-skills li,
+    .pf-contact a {
+        transition-duration: .01s;
+    }
+}
+
+/* Footer links: a soft throb that grows slightly and returns to normal size */
+@keyframes pf-throb {
+    0%, 100% {
+        scale: 1;
+    }
+
+    50% {
+        scale: 1.05;
+    }
+}
+
+.pf-footer-links a {
+    animation: pf-throb 2.6s ease-in-out infinite;
+}
+
+    /* Each link throbs a little after the previous one */
+    .pf-footer-links a:nth-child(2) {
+        animation-delay: .4s;
+    }
+
+    .pf-footer-links a:nth-child(3) {
+        animation-delay: .8s;
+    }
+
+    .pf-footer-links a:nth-child(4) {
+        animation-delay: 1.2s;
+    }
+
+    /* Pause the throb while the mouse is over a link, so the hover lift stays clean */
+    .pf-footer-links a:hover,
+    .pf-footer-links a:focus-visible {
+        animation-play-state: paused;
+    }
+
+/* Users who turn off animations see the links without the throb */
+@media (prefers-reduced-motion: reduce) {
+    .pf-footer-links a {
+        animation: none;
+    }
+}
+
+/* Smooth throb: give each link its own layer and drop the per-frame blur behind it */
+.pf-footer-links a {
+    will-change: transform;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+/* Timeline: the year and the title always read left-to-right, the description follows the page */
+.pf-timeline .pf-year,
+.pf-timeline strong[dir="ltr"] {
+    direction: ltr;
+    text-align: start;
+}
+
+.pf-timeline strong[dir="ltr"] {
+    display: block;
+}
+
+/* Timeline: the line and dots stay on the left in both languages */
+.pf-timeline {
+    border-inline-start: none;
+    border-left: 2px solid;
+    padding-inline-start: 0;
+    padding-left: 28px;
+}
+
+    .pf-timeline li::before {
+        inset-inline-start: auto;
+        left: -37px;
+    }
+
+/* Skill chips: dot on the left of the label in both languages */
+[dir="rtl"] .pf-skills,
+[dir="rtl"] .pf-skills li {
+    direction: ltr;
+}
+
+/* Footer name: the dot is its own flex item, so it follows the page direction in both languages */
+.pf-footer strong {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Change culture link: keep it visible on small screens and remove the menu-link underline and dot */
+.pf-nav nav a.pf-lang::before,
+.pf-nav nav a.pf-lang::after {
+    display: none;
+}
+
+[lang="en"] .pf-nav nav a.pf-lang,
+[lang="fa"] .pf-nav nav a.pf-lang {
+    display: inline-flex;
+}
+
+/* Latin fallback for the Persian paragraph: Segoe UI with metrics adjusted to sit level with IRANSansX */
+[lang="fa"].pf-lead, [lang="en"] .pf-lead {
+    font-family: "IRANSansX", "LatinFallback", "Segoe UI", sans-serif;
+    text-align: justify;
+}

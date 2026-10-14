@@ -1,0 +1,21 @@
+﻿@inherits LayoutComponentBase
+
+
+
+<main class="lamp-page">
+    <div class="lamp-ambient" aria-hidden="true"></div>
+
+    <_Header />
+
+    <div class="lamp-text">
+        @(Body)
+    </div>
+
+    <div class="lamp" aria-hidden="true">
+        <div class="lamp-cord"></div>
+        <div class="lamp-socket"></div>
+        <div class="lamp-globe">
+            <span class="lamp-filament"></span>
+        </div>
+    </div>
+</main>

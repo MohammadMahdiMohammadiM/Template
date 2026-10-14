@@ -1,0 +1,59 @@
+﻿@inject NavigationManager navigationManager
+
+@inject Infrastructure.Settings.ApplicationSettings applicationSettings
+
+@{
+    string language = string.Empty;
+    string flag = string.Empty;
+
+    var cultureSettings =
+        applicationSettings.CultureSettings;
+
+    var supportedCultureNames =
+        cultureSettings.SupportedCultures;
+
+    if (supportedCultureNames == null ||
+        supportedCultureNames.Length <= 1)
+    {
+        return;
+    }
+
+    var currentCultureName =
+        System.Threading.Thread
+        .CurrentThread.CurrentUICulture.Name;
+
+    //EscapeDataString changes a text value into a form that’s safe to put inside a web address
+    //Use EscapeDataString on a single value you put into a query string or a route segment.
+    var returnUrl =
+        Uri.EscapeDataString(navigationManager.Uri);
+}
+
+
+<span>
+    @foreach (var supportedCultureName in supportedCultureNames)
+    {
+        var country = supportedCultureName[5..].ToLower();
+
+        var supportedCulture = new System.Globalization.CultureInfo(name: supportedCultureName);
+
+
+        if (supportedCulture.Parent.NativeName is Constants.CommonName.Farsi)
+        {
+            language = Constants.CommonName.Persian;
+            flag = Constants.CommonRouting.IranFlag;
+        }
+        else
+        {
+            language = supportedCulture.Parent.NativeName;
+            flag = Constants.CommonRouting.UsaFlag;
+        }
+
+        if (currentCultureName != supportedCultureName)
+        {
+            <a href="/change-culture/@(supportedCultureName)?ReturnUrl=@(returnUrl)" class="pf-lang" aria-label="@(Resources.DataDictionary.SwitchLanguage)">
+                <img class="pf-flag" src="@(flag)" alt="" aria-hidden="true" />
+                <span>@(language)</span>
+            </a>
+        }
+    }
+</span>

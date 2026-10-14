@@ -1,0 +1,71 @@
+@page "/"
+@layout MainLayout
+
+<main>
+    <section id="home" class="pf-section pf-hero">
+        <button type="button" class="pf-flip" @onclick="Flip" aria-label="@(Resources.Messages.Common.FlipPhoto)">
+            <span class="pf-flip-inner" style="--angle:@(Rotate)deg">
+                <span class="pf-face pf-front">
+                    <img src="images/artan.jpg" alt="Photo of @(Resources.PageTitles.FullNameOfMe)"/>
+                </span>
+                <span class="pf-face pf-back">
+                    <span class="pf-back-title">@(Resources.Messages.Common.BackLabelOfCard) </span>
+                    <span> @(Resources.Messages.Common.ShortBio) </span>
+                </span>
+            </span>
+        </button>
+
+        <h1> @(Resources.PageTitles.FullNameOfMe) </h1>
+        <p class="pf-role">@(Resources.Messages.Labels.Role) </p>
+        <p class="pf-hint">@(Resources.Messages.Common.FlipPhoto) </p>
+    </section>
+
+
+    <section id="about" class="pf-section">
+        <h2> @(Resources.PageTitles.AboutMe) </h2>
+        <p class="pf-lead" data-reveal="@(ApplicatonSettings.PageSettings.RevealOnScroll)">@(Resources.Messages.Common.AboutMe) </p>
+    </section>
+
+    <section id="career" class="pf-section">
+        <h2> @(Resources.PageTitles.CareerPath) </h2>
+        <ol class="pf-timeline">
+            @for (var i = 0; i < RoadMapViewModel!.Count; i++)
+            {
+                var roadMapModel = RoadMapViewModel[i];
+                <li data-reveal="@(ApplicatonSettings.PageSettings.RevealOnScroll)" style="--d:@(i * 90)ms;">
+                    <span class="pf-year" dir="ltr">@(roadMapModel.Year) </span>
+                        <strong dir="ltr"> @(roadMapModel.Title) </strong>
+                    <p><i> @(roadMapModel.Text) </i></p>
+                </li>
+            }
+        </ol>
+    </section>
+    
+
+    <section id="skills" class="pf-section">
+
+        <h2> @(Resources.PageTitles.Skills) </h2>
+
+        <ul class="pf-skills" data-reveal="@(ApplicatonSettings.PageSettings.RevealOnScroll)">
+            @foreach (var skill in Skills!)
+            {
+                <li> @(skill) </li>
+            }
+        </ul>
+    </section>
+
+    <section id="contact" class="pf-section">
+
+        <h2> @(Resources.PageTitles.ContactMe) </h2>
+
+        <div class="pf-contact" data-reveal="@(ApplicatonSettings.PageSettings.RevealOnScroll)">
+            <a href="tel:@(Resources.ButtonCaptions.PhoneLink)"> @(Resources.DataDictionary.Phone) </a>
+            <a href="mailto:@(Resources.ButtonCaptions.Email)"> @(Resources.DataDictionary.Email) </a>
+            @foreach (var social in SocialViewModel!)
+            {
+                <a href="@(social.Url)" target="_blank" rel="noopener">@(social.Label) </a>
+            }
+        </div>
+    </section>
+</main>
+
