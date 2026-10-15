@@ -16,7 +16,7 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Publish the Blazor app
-        run: dotnet publish master/src/Presentation/Client/Client.csproj -c Release -o publish
+        run: dotnet publish ./publish/wwwroot -c Release -o publish
 
       - name: Upload the site
         uses: actions/upload-artifact@v4
