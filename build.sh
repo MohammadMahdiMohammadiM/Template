@@ -7,6 +7,6 @@ chmod +x dotnet-install.sh
 ./dotnet-install.sh --channel 10.0 --install-dir ./dotnet
 
 ./dotnet/dotnet --info
-./dotnet/dotnet publish ./Client.csproj \
+./dotnet/dotnet publish ./src/Presentation/Client.csproj \
   --configuration Release \
   --output output
