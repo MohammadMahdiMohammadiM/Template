@@ -1,96 +1,96 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <TargetFramework>net10.0</TargetFramework>
-  </PropertyGroup>
+    <PropertyGroup>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <TargetFramework>net10.0</TargetFramework>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Update="ButtonCaptions.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ButtonCaptions.resx</DependentUpon>
-    </Compile>
-    <Compile Update="DataDictionary.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>DataDictionary.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Messages\Common.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Common.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Messages\Errors.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Errors.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Messages\Labels.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Labels.resx</DependentUpon>
-    </Compile>
-    <Compile Update="PageTitles.Designer.cs">
-      <DependentUpon>PageTitles.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="RoadMap\RoadMaps.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>RoadMaps.resx</DependentUpon>
-    </Compile>
-    <Compile Update="RoadMap\Years.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Years.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Skill\Skills.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Skills.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Update="ButtonCaptions.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>ButtonCaptions.resx</DependentUpon>
+        </Compile>
+        <Compile Update="DataDictionary.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>DataDictionary.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Messages\Common.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Common.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Messages\Errors.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Errors.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Messages\Labels.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Labels.resx</DependentUpon>
+        </Compile>
+        <Compile Update="PageTitles.Designer.cs">
+            <DependentUpon>PageTitles.resx</DependentUpon>
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+        </Compile>
+        <Compile Update="RoadMap\RoadMaps.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>RoadMaps.resx</DependentUpon>
+        </Compile>
+        <Compile Update="RoadMap\Years.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Years.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Skill\Skills.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Skills.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="ButtonCaptions.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ButtonCaptions.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="DataDictionary.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>DataDictionary.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Messages\Common.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Common.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Messages\Errors.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Errors.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Messages\Labels.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Labels.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="PageTitles.resx">
-      <LastGenOutput>PageTitles.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="RoadMap\RoadMaps.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>RoadMaps.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="RoadMap\Years.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Years.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Skill\Skills.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Skills.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Update="ButtonCaptions.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>ButtonCaptions.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DataDictionary.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>DataDictionary.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Messages\Common.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>Common.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Messages\Errors.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>Errors.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Messages\Labels.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>Labels.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="PageTitles.resx">
+            <LastGenOutput>PageTitles.Designer.cs</LastGenOutput>
+            <Generator>PublicResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RoadMap\RoadMaps.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>RoadMaps.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RoadMap\Years.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>Years.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Skill\Skills.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>Skills.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
 
 </Project>
