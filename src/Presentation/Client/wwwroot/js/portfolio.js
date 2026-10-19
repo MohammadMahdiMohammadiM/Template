@@ -48,7 +48,7 @@ window.portfolio = (() => {
         try {
             const saved = getCookie("Culture.Cookie");
             const isPersian = saved ? saved.startsWith("fa") : false;
-            const isPersian = saved ? saved.startsWith("fa") : false;
+            
             document.documentElement.lang = isPersian ? "fa" : "en";
             document.documentElement.dir = isPersian ? "rtl" : "ltr";
         } catch { }
