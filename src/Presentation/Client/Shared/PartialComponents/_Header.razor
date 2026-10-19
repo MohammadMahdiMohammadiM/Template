@@ -1,12 +1,28 @@
 ﻿<header class="pf-nav">
     <a class="pf-brand" href="home" data-scroll="home">@(Resources.PageTitles.FullNameOfMe) </a>
-    <nav aria-label="@(Resources.PageTitles.Home)">
 
-        <a href="#about" data-scroll="about">@(Resources.PageTitles.AboutMe) </a>
-        <a href="#career" data-scroll="career">@(Resources.PageTitles.Career) </a>
-        <a href="#skills" data-scroll="skills">@(Resources.PageTitles.Skills) </a>
-        <a href="#contact" data-scroll="contact">@(Resources.PageTitles.ContactMe) </a>
+    <nav aria-label="@(Resources.PageTitles.Home)">
+        <a href="#about" data-scroll="about">@(Resources.PageTitles.AboutMe)</a>
+        <a href="#career" data-scroll="career">@(Resources.PageTitles.Career)</a>
+        <a href="#skills" data-scroll="skills">@(Resources.PageTitles.Skills)</a>
+        <a href="#contact" data-scroll="contact">@(Resources.PageTitles.ContactMe)</a>
+    </nav>
+
+    <div class="pf-actions">
+        <details class="pf-menu">
+            <summary class="pf-menu-toggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </summary>
+            <div class="pf-menu-list">
+                <a href="#about" data-scroll="about">@(Resources.PageTitles.AboutMe)</a>
+                <a href="#career" data-scroll="career">@(Resources.PageTitles.Career)</a>
+                <a href="#skills" data-scroll="skills">@(Resources.PageTitles.Skills)</a>
+                <a href="#contact" data-scroll="contact">@(Resources.PageTitles.ContactMe)</a>
+            </div>
+        </details>
 
         <_ChangeCulture />
-    </nav>
+    </div>
 </header>
