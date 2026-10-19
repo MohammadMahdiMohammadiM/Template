@@ -103,7 +103,7 @@ window.portfolio = (() => {
         document.querySelectorAll("main section[id]").forEach(s => {
             if (s.getBoundingClientRect().top <= innerHeight * 0.4) current = s.id;
         });
-        document.querySelectorAll(".pf-nav nav a, .pf-menu-list a").forEach(a =>
+        document.querySelectorAll(".pf-nav nav a").forEach(a =>
             a.classList.toggle("active", a.dataset.scroll === current));
     }
 
@@ -122,17 +122,8 @@ window.portfolio = (() => {
             if (!link) return;
             e.preventDefault();
             e.stopPropagation();
-            const menu = link.closest(".pf-menu");
-            if (menu) setTimeout(() => menu.removeAttribute("open"), 180);
             goTo(link.dataset.scroll);
         }, true);
-
-        // Close the menu when the visitor clicks anywhere outside it
-        on(document, "click", e => {
-            document.querySelectorAll(".pf-menu[open]").forEach(menu => {
-                if (!menu.contains(e.target)) menu.removeAttribute("open");
-            });
-        });
 
         // If the visitor scrolls by hand, stop the automatic scrolling.
         ["wheel", "touchstart", "keydown"].forEach(name => on(window, name, () => token++, { passive: true }));
