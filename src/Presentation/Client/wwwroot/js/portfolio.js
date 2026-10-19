@@ -46,11 +46,9 @@ window.portfolio = (() => {
     // Runs when this script loads, before Blazor starts, so the direction is right from the first paint.
     (function setDirectionEarly() {
         try {
-            // const match = document.cookie.match(/(?:^|; )Culture\.Cookie=([^;]*)/);
-            // const saved = match ? decodeURIComponent(match[1]) : null;
-            const saved = getCookie("Culture.Cookie");
+            const match = document.cookie.match(/(?:^|; )culture=([^;]*)/);
+            const saved = match ? decodeURIComponent(match[1]) : null;
             const isPersian = saved ? saved.startsWith("fa") : false;
-
             document.documentElement.lang = isPersian ? "fa" : "en";
             document.documentElement.dir = isPersian ? "rtl" : "ltr";
         } catch { }
