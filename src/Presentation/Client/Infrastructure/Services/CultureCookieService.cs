@@ -114,7 +114,7 @@ public class CultureCookieService
         {
             Path = "/",
 
-            Secure = false,
+            Secure = true,
 
             HttpOnly = false,
 

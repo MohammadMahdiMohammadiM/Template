@@ -8,8 +8,8 @@ self.addEventListener('fetch', event => event.respondWith(onFetch(event)));
 
 const cacheNamePrefix = 'offline-cache-';
 const cacheName = `${cacheNamePrefix}${self.assetsManifest.version}`;
-const offlineAssetsInclude = [ /\.dll$/, /\.pdb$/, /\.wasm/, /\.html/, /\.js$/, /\.json$/, /\.css$/, /\.woff$/, /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/, /\.blat$/, /\.dat$/, /\.webmanifest$/ ];
-const offlineAssetsExclude = [ /^service-worker\.js$/ ];
+const offlineAssetsInclude = [/\.dll$/, /\.pdb$/, /\.wasm/, /\.html/, /\.js$/, /\.json$/, /\.css$/, /\.woff$/, /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/, /\.blat$/, /\.dat$/, /\.webmanifest$/];
+const offlineAssetsExclude = [/^service-worker\.js$/];
 
 // Replace with your base path if you are hosting on a subfolder. Ensure there is a trailing '/'.
 const base = "/";
@@ -37,19 +37,52 @@ async function onActivate(event) {
         .map(key => caches.delete(key)));
 }
 
-async function onFetch(event) {
-    let cachedResponse = null;
-    if (event.request.method === 'GET') {
-        // For all navigation requests, try to serve index.html from cache,
-        // unless that request is for an offline resource.
-        // If you need some URLs to be server-rendered, edit the following check to exclude those URLs
-        const shouldServeIndexHtml = event.request.mode === 'navigate'
-            && !manifestUrlList.some(url => url === event.request.url);
+// async function onFetch(event) {
+//     let cachedResponse = null;
+//     if (event.request.method === 'GET') {
+//         // For all navigation requests, try to serve index.html from cache,
+//         // unless that request is for an offline resource.
+//         // If you need some URLs to be server-rendered, edit the following check to exclude those URLs
+//         const shouldServeIndexHtml = event.request.mode === 'navigate'
+//             && !manifestUrlList.some(url => url === event.request.url);
 
-        const request = shouldServeIndexHtml ? 'index.html' : event.request;
-        const cache = await caches.open(cacheName);
-        cachedResponse = await cache.match(request);
+//         const request = shouldServeIndexHtml ? 'index.html' : event.request;
+//         const cache = await caches.open(cacheName);
+//         cachedResponse = await cache.match(request);
+//     }
+
+//     return cachedResponse || fetch(event.request);
+// }
+
+async function onFetch(event) {
+    if (event.request.method !== 'GET') {
+        return fetch(event.request);
     }
+
+    // Always try the network first for page navigation.
+    // This prevents an old cached index.html from starting
+    // a newer/older Blazor deployment with mismatched assets.
+    if (event.request.mode === 'navigate') {
+        try {
+            return await fetch(event.request);
+        }
+        catch {
+            // If the network is unavailable, fall back to the
+            // cached index.html so offline support still works.
+            const cache = await caches.open(cacheName);
+            const cachedResponse = await cache.match('index.html');
+
+            if (cachedResponse) {
+                return cachedResponse;
+            }
+
+            throw new Error('No network connection and no cached index.html available.');
+        }
+    }
+
+    // For other GET requests, keep the existing cache-first behavior.
+    const cache = await caches.open(cacheName);
+    const cachedResponse = await cache.match(event.request);
 
     return cachedResponse || fetch(event.request);
 }
