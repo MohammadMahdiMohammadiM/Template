@@ -6,4 +6,10 @@
     "directory": "./output/wwwroot",
     "not_found_handling": "single-page-application"
   }
+  "routes": [
+    {
+      "pattern": "artanarian.ir",
+      "custom_domain": true
+    }
+   ]
 }
