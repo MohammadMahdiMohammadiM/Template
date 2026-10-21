@@ -1329,3 +1329,30 @@ h2 {
         transition-duration: .01s;
     }
 }
+
+/* Very small phones: shrink the language button and the menu button so the title fits in the middle */
+@media (max-width: 480px) {
+    .pf-nav .pf-lang {
+        padding: 6px 8px;
+        gap: 6px;
+        font-size: .8rem;
+    }
+
+    .pf-nav .pf-flag {
+        width: 18px;
+        height: 13px;
+    }
+
+    .pf-menu-toggle {
+        width: 36px;
+        height: 34px;
+    }
+
+    .pf-actions {
+        gap: 6px;
+    }
+
+    .pf-nav nav a {
+        font-size: .8rem;
+    }
+}
