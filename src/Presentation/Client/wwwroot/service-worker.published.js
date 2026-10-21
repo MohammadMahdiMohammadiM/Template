@@ -41,6 +41,20 @@ async function onActivate(event) {
     await self.clients.claim();
 }
 
+function removeRedirectFlag(response) {
+    if (!response || !response.redirected) {
+        return response;
+    }
+
+    const clonedResponse = response.clone();
+
+    return new Response(clonedResponse.body, {
+        headers: clonedResponse.headers,
+        status: clonedResponse.status,
+        statusText: clonedResponse.statusText
+    });
+}
+
 async function onFetch(event) {
     if (event.request.method !== 'GET') {
         return fetch(event.request);
@@ -51,13 +65,15 @@ async function onFetch(event) {
     // Page navigation: network first, so index.html always matches the newest deployment.
     if (event.request.mode === 'navigate') {
         try {
-            return await fetch(event.request.url, { cache: 'no-cache' });
+            return removeRedirectFlag(
+                await fetch(event.request.url, { cache: 'no-cache' })
+            );
         }
         catch {
             // Offline: fall back to the cached index.html.
             const cachedIndex = await cache.match('index.html');
             if (cachedIndex) {
-                return cachedIndex;
+                return removeRedirectFlag(cachedIndex);
             }
             throw new Error('No network connection and no cached index.html available.');
         }

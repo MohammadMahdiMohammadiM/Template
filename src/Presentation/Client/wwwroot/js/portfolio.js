@@ -13,16 +13,16 @@ window.portfolio = (() => {
     const inOutSine = t => -(Math.cos(Math.PI * t) - 1) / 2;
 
     // Browser Informations
-    function getBrowserInfo() {
-        return {
-            userAgent: navigator.userAgent,
-            languages: Array.from(navigator.languages || []),
-            referrer: document.referrer,
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            screenWidth: screen.width,
-            screenHeight: screen.height
-        };
-    }
+    // function getBrowserInfo() {
+    //     return {
+    //         userAgent: navigator.userAgent,
+    //         languages: Array.from(navigator.languages || []),
+    //         referrer: document.referrer,
+    //         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    //         screenWidth: screen.width,
+    //         screenHeight: screen.height
+    //     };
+    // }
 
     // Cookie helpers. C# decides which culture to use; these only read and write the cookie.
     function setCookieWithOptions(name, value, options) {
@@ -43,7 +43,7 @@ window.portfolio = (() => {
 
     // Removes a cookie by setting its expiry date in the past.
     function deleteCookie(name, path) {
-        document.cookie = `${encodeURIComponent(name)}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=${path || "/"}`;
+        document.cookie = `${encodeURIComponent(name)}=; expires=Wed, 01 Jan 2025 00:00:00 GMT; path=${path || "/"}`;
     }
 
     // Runs when this script loads, before Blazor starts, so the direction is right from the first paint.
