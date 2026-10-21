@@ -2,5 +2,5 @@
 
 
 
-                                  ---------This is a BLazor WebAssembly Standalone Template!---------
+                    ---------This is a BLazor WebAssembly Standalone Template!---------
 
