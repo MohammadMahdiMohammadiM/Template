@@ -17,6 +17,7 @@ const baseUrl = new URL(base, self.origin);
 const manifestUrlList = self.assetsManifest.assets.map(asset => new URL(asset.url, baseUrl).href);
 
 async function onInstall(event) {
+    self.skipWaiting();
     console.info('Service worker: Install');
 
     // Fetch and cache all matching items from the assets manifest
@@ -35,54 +36,53 @@ async function onActivate(event) {
     await Promise.all(cacheKeys
         .filter(key => key.startsWith(cacheNamePrefix) && key !== cacheName)
         .map(key => caches.delete(key)));
+
+    // Take control of the open pages now, instead of at the next navigation
+    await self.clients.claim();
 }
-
-// For all navigation requests, try to serve index.html from cache,
-// unless that request is for an offline resource.
-// If you need some URLs to be server-rendered, edit the following check to exclude those URLs
-// async function onFetch(event) {
-//     let cachedResponse = null;
-//     if (event.request.method === 'GET') {
-//         const shouldServeIndexHtml = event.request.mode === 'navigate'
-//             && !manifestUrlList.some(url => url === event.request.url);
-
-//         const request = shouldServeIndexHtml ? 'index.html' : event.request;
-//         const cache = await caches.open(cacheName);
-//         cachedResponse = await cache.match(request);
-//     }
-
-//     return cachedResponse || fetch(event.request);
-// }
 
 async function onFetch(event) {
     if (event.request.method !== 'GET') {
         return fetch(event.request);
     }
 
-    // Always try the network first for page navigation.
-    // This prevents an old cached index.html from starting
-    // a newer/older Blazor deployment with mismatched assets.
+    const cache = await caches.open(cacheName);
+
+    // Page navigation: network first, so index.html always matches the newest deployment.
     if (event.request.mode === 'navigate') {
         try {
-            return await fetch(event.request);
+            return await fetch(event.request.url, { cache: 'no-cache' });
         }
         catch {
-            // If the network is unavailable, fall back to the
-            // cached index.html so offline support still works.
-            const cache = await caches.open(cacheName);
-            const cachedResponse = await cache.match('index.html');
-
-            if (cachedResponse) {
-                return cachedResponse;
+            // Offline: fall back to the cached index.html.
+            const cachedIndex = await cache.match('index.html');
+            if (cachedIndex) {
+                return cachedIndex;
             }
-
             throw new Error('No network connection and no cached index.html available.');
         }
     }
 
-    // For other GET requests, keep the existing cache-first behavior.
-    const cache = await caches.open(cacheName);
-    const cachedResponse = await cache.match(event.request);
+    // Your own CSS and JS keep the same name between deployments, so ask the network first.
+    const url = new URL(event.request.url);
+    const isAppFile = url.origin === self.location.origin
+        && !url.pathname.includes('/_framework/')
+        && (url.pathname.endsWith('.css') || url.pathname.endsWith('.js'));
 
+    if (isAppFile) {
+        try {
+            return await fetch(event.request, { cache: 'no-cache' });
+        }
+        catch {
+            const cachedFile = await cache.match(event.request);
+            if (cachedFile) {
+                return cachedFile;
+            }
+            throw new Error('No network connection and no cached copy available.');
+        }
+    }
+
+    // Everything else (framework files with hashed names, images, fonts): cache first.
+    const cachedResponse = await cache.match(event.request);
     return cachedResponse || fetch(event.request);
 }

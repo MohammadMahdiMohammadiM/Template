@@ -2,6 +2,9 @@ window.portfolio = (() => {
     let token = 0;
     let frame = 0;
     let cleanup = [];
+    let sections = [];
+    let navLinks = [];
+    let footerElement = null;
 
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
     const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
@@ -9,17 +12,17 @@ window.portfolio = (() => {
     const outCubic = t => 1 - (1 - t) ** 3;
     const inOutSine = t => -(Math.cos(Math.PI * t) - 1) / 2;
 
-    //// Browser Informations
-    // function getBrowserInfo() {
-    //     return {
-    //         userAgent: navigator.userAgent,
-    //         languages: Array.from(navigator.languages || []),
-    //         referrer: document.referrer,
-    //         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    //         screenWidth: screen.width,
-    //         screenHeight: screen.height
-    //     };
-    // }
+    // Browser Informations
+    function getBrowserInfo() {
+        return {
+            userAgent: navigator.userAgent,
+            languages: Array.from(navigator.languages || []),
+            referrer: document.referrer,
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            screenWidth: screen.width,
+            screenHeight: screen.height
+        };
+    }
 
     // Cookie helpers. C# decides which culture to use; these only read and write the cookie.
     function setCookieWithOptions(name, value, options) {
@@ -69,7 +72,10 @@ window.portfolio = (() => {
     // Slow down, roll a little past the goal, then settle back onto it.
     async function goTo(id) {
         const el = document.getElementById(id);
-        if (!el) return;
+        if (!el) {
+            console.warn(`portfolio: no section with id "${id}" was found for a menu link.`);
+            return;
+        }
 
         const navH = document.querySelector(".pf-nav").offsetHeight;
         const from = scrollY;
@@ -92,19 +98,17 @@ window.portfolio = (() => {
     function update() {
         frame = 0;
 
-        const footer = document.querySelector(".pf-footer");
-        if (footer) {
-            const r = footer.getBoundingClientRect();
+        if (footerElement) {
+            const r = footerElement.getBoundingClientRect();
             const visible = clamp((innerHeight - r.top) / r.height, 0, 1);
-            footer.style.setProperty("--reveal", visible.toFixed(3));
+            footerElement.style.setProperty("--reveal", visible.toFixed(3));
         }
 
         let current = "";
-        document.querySelectorAll("main section[id]").forEach(s => {
+        sections.forEach(s => {
             if (s.getBoundingClientRect().top <= innerHeight * 0.4) current = s.id;
         });
-        document.querySelectorAll(".pf-nav nav a, .pf-menu-list a").forEach(a =>
-            a.classList.toggle("active", a.dataset.scroll === current));
+        navLinks.forEach(a => a.classList.toggle("active", a.dataset.scroll === current));
     }
 
     function init() {
@@ -145,6 +149,9 @@ window.portfolio = (() => {
         document.querySelectorAll("[data-reveal]").forEach(el => observer.observe(el));
         cleanup.push(() => observer.disconnect());
 
+        sections = Array.from(document.querySelectorAll("main section[id]"));
+        navLinks = Array.from(document.querySelectorAll(".pf-nav nav a, .pf-menu-list a"));
+        footerElement = document.querySelector(".pf-footer");
         update();
     }
 
