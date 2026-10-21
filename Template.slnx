@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/docs/">
+    <File Path="DataRemember.txt" />
     <File Path="ToDo.txt" />
   </Folder>
   <Folder Name="/src/" />
