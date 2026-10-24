@@ -11,18 +11,15 @@ public class ApplicationSettings : object
     #region Constructor
     public ApplicationSettings() : base()
 	{
+        PageSettings = new();
+        CultureSettings = new();
 	}
     #endregion /Constructor
 
     #region Properties
 
-    #region public CultureSettings CultureSettings { get; set; } = default!;
-    public CultureSettings CultureSettings { get; set; } = default!;
-    #endregion /public CultureSettings CultureSettings { get; set; } = default!;
-
-    #region public PageSettings PageSettings { get; set; } = default!;
-    public PageSettings PageSettings { get; set; } = default!;
-    #endregion /public PageSettings PageSettings { get; set; } = default!;
+    public PageSettings PageSettings { get; init; }
+    public CultureSettings CultureSettings { get; set; }
 
     #endregion /Properties
 }

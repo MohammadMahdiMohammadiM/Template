@@ -15,7 +15,6 @@ namespace Infrastructure.Services;
 public class CultureCookieService
         (IJSRuntime js, ApplicationSettings applicationSettings, NavigationManager navigationManager)
 {
-
     #region Statics
     private readonly static string CookieName = "Culture.Cookie";
     #endregion /Statics

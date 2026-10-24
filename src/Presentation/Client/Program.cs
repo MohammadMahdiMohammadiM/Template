@@ -45,18 +45,15 @@ public class Program : object
         // **************************************************
 
         // **************************************************
-        var applicationSettings =
-            builder.Configuration.GetSection
-            (ApplicationSettings.KeyName)
-            .Get<ApplicationSettings>();
+        //var applicationSettings =
+        //    builder.Configuration.GetSection
+        //    (ApplicationSettings.KeyName)
+        //    .Get<ApplicationSettings>();
         // **************************************************
 
         // **************************************************
         builder.Services.Configure<ApplicationSettings>
           (builder.Configuration.GetSection(key: ApplicationSettings.KeyName))
-        // **************************************************
-
-        // **************************************************
         .AddSingleton
         (implementationFactory: serviceType =>
         {
