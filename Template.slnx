@@ -1,7 +1,7 @@
 <Solution>
   <Folder Name="/docs/">
-    <File Path="DataRemember.txt" />
-    <File Path="ToDo.txt" />
+    <File Path="docs/DataRemember.txt" />
+    <File Path="docs/ToDo.txt" />
   </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/Core/">
