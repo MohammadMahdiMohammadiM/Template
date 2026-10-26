@@ -1,90 +1,76 @@
 // **************************************************
 using System;
+using Client;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Infrastructure.Services;
 using Infrastructure.Settings;
-using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 // **************************************************
 
-namespace Client;
+// **************************************************
+var builder = WebAssemblyHostBuilder.CreateDefault();
+// **************************************************
 
-public class Program : object
-{
-    public Program() : base()
+// **************************************************
+builder.RootComponents.Add<App>("#app");
+builder.RootComponents.Add<HeadOutlet>("head::after");
+// **************************************************
+
+// **************************************************
+builder.Services.AddScoped
+    (implementationFactory: current =>
     {
-    }
-
-    public static async Task Main()
-    {
-        // **************************************************
-        var builder = WebAssemblyHostBuilder.CreateDefault();
-        // **************************************************
-
-        // **************************************************
-        builder.RootComponents.Add<App>("#app");
-        builder.RootComponents.Add<HeadOutlet>("head::after");
-        // **************************************************
-
-        // **************************************************
-        builder.Services.AddScoped
-            (implementationFactory: current =>
-            {
-                var httpClient =
-                new HttpClient
-                {
-                    BaseAddress =
-                        new Uri(uriString: builder.HostEnvironment.BaseAddress),
-                };
-
-                return httpClient;
-            });
-        // **************************************************
-
-        // **************************************************
-        //var applicationSettings =
-        //    builder.Configuration.GetSection
-        //    (ApplicationSettings.KeyName)
-        //    .Get<ApplicationSettings>();
-        // **************************************************
-
-        // **************************************************
-        builder.Services.Configure<ApplicationSettings>
-          (builder.Configuration.GetSection(key: ApplicationSettings.KeyName))
-        .AddSingleton
-        (implementationFactory: serviceType =>
+        var httpClient =
+        new HttpClient
         {
-            var result =
-             serviceType.GetRequiredService
-                <Microsoft.Extensions.Options.IOptions
-                <ApplicationSettings>>().Value;
+            BaseAddress =
+                new Uri(uriString: builder.HostEnvironment.BaseAddress),
+        };
 
-            return result;
-        });
-        // **************************************************
+        return httpClient;
+    });
+// **************************************************
 
-        // **************************************************
-        builder.Services.AddLocalization();
-        // **************************************************
+// **************************************************
+//var applicationSettings =
+//    builder.Configuration.GetSection
+//    (ApplicationSettings.KeyName)
+//    .Get<ApplicationSettings>();
+// **************************************************
 
-        // **************************************************
-        builder.Services.AddScoped<CultureCookieService>();
-        // **************************************************
+// **************************************************
+builder.Services.Configure<ApplicationSettings>
+  (builder.Configuration.GetSection(key: ApplicationSettings.KeyName))
+.AddSingleton
+(implementationFactory: serviceType =>
+{
+    var result =
+     serviceType.GetRequiredService
+        <Microsoft.Extensions.Options.IOptions
+        <ApplicationSettings>>().Value;
 
-        // **************************************************
-        var host = builder.Build();
-        // **************************************************
+    return result;
+});
+// **************************************************
 
-        // **************************************************
-        await host.Services.
-            GetRequiredService<CultureCookieService>().ApplyCultureAsync();
-        // **************************************************
+// **************************************************
+builder.Services.AddLocalization();
+// **************************************************
 
-        // **************************************************
-        await host.RunAsync();
+// **************************************************
+builder.Services.AddScoped<CultureCookieService>();
+// **************************************************
 
-    }
-}
+// **************************************************
+var host = builder.Build();
+// **************************************************
+
+// **************************************************
+await host.Services.
+    GetRequiredService<CultureCookieService>().ApplyCultureAsync();
+// **************************************************
+
+// **************************************************
+await host.RunAsync();
